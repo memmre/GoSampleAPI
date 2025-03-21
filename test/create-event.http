@@ -1,0 +1,10 @@
+POST http://localhost:8080/events
+content-type: application-json
+
+{
+    "userID": 1,
+    "name": "Test Event #1",
+    "description": "Event description",
+    "location": "Event location",
+    "dateTime": "2025-04-01T15:00:00.000Z"
+}
