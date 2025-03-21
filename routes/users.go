@@ -1,8 +1,9 @@
 package routes
 
 import (
-	"example.com/sample-api/models"
 	"github.com/gin-gonic/gin"
+	"github.com/memmre/GoSampleAPI/models"
+	"github.com/memmre/GoSampleAPI/utilities"
 	"net/http"
 )
 
@@ -21,7 +22,19 @@ func signIn(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"message": "Sign in successful."})
+	token, err := utilities.GenerateToken(user.ID, user.EmailAddress)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not authenticate user."})
+		return
+	}
+
+	context.JSON(
+		http.StatusOK,
+		gin.H{
+			"message": "Sign in successful.",
+			"token":   token,
+		},
+	)
 }
 
 func signUp(context *gin.Context) {

@@ -1,8 +1,8 @@
 POST http://localhost:8080/events
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbEFkZHJlc3MiOiJqb2huZG9lQGV4YW1wbGUuY29tIiwiZXhwIjoxNzQyNTk5OTQ0LCJ1c2VySUQiOjF9.9DYdvVVTT5FHfHfj4MngsY5R2hMsMav7mWGg9ciO6U4
 content-type: application-json
 
 {
-    "userID": 1,
     "name": "Test Event #1",
     "description": "Event description",
     "location": "Event location",

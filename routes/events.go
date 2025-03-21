@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"example.com/sample-api/models"
 	"github.com/gin-gonic/gin"
+	"github.com/memmre/GoSampleAPI/models"
 	"net/http"
 	"strconv"
 )
@@ -16,6 +16,7 @@ func createEvent(context *gin.Context) {
 		return
 	}
 
+	event.UserID = context.GetInt64("userID")
 	err = event.Create()
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create event."})
@@ -35,6 +36,11 @@ func deleteEvent(context *gin.Context) {
 	event, err := models.GetEvent(eventID)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch event."})
+		return
+	}
+
+	if event.UserID != context.GetInt64("userID") {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to delete this event."})
 		return
 	}
 
@@ -81,9 +87,14 @@ func updateEvent(context *gin.Context) {
 		return
 	}
 
-	_, err = models.GetEvent(eventID)
+	event, err := models.GetEvent(eventID)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch event."})
+		return
+	}
+
+	if event.UserID != context.GetInt64("userID") {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to update this event."})
 		return
 	}
 

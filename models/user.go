@@ -2,8 +2,8 @@ package models
 
 import (
 	"errors"
-	"example.com/sample-api/database"
-	"example.com/sample-api/utilities"
+	"github.com/memmre/GoSampleAPI/database"
+	"github.com/memmre/GoSampleAPI/utilities"
 )
 
 type User struct {
@@ -40,14 +40,14 @@ func (user *User) Create() error {
 
 func (user *User) ValidateCredentials() error {
 	query := `
-		SELECT password 
+		SELECT id, password 
 		FROM users 
 		WHERE emailAddress = ?
 	`
 	row := database.DATABASE.QueryRow(query, user.EmailAddress)
 
 	var retrievedPassword string
-	err := row.Scan(&retrievedPassword)
+	err := row.Scan(&user.ID, &retrievedPassword)
 	if err != nil {
 		return errors.New("user-not-found")
 	}

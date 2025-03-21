@@ -1,7 +1,7 @@
 package models
 
 import (
-	"example.com/sample-api/database"
+	"github.com/memmre/GoSampleAPI/database"
 	"time"
 )
 
@@ -14,7 +14,7 @@ type Event struct {
 	DateTime    time.Time `binding:"required"`
 }
 
-func (event Event) Create() error {
+func (event *Event) Create() error {
 	query := `
 		INSERT INTO events (userID, name, description, location, dateTime) 
 		VALUES (?, ?, ?, ?, ?)
@@ -35,7 +35,7 @@ func (event Event) Create() error {
 	return err
 }
 
-func (event Event) Delete() error {
+func (event *Event) Delete() error {
 	query := "DELETE FROM events WHERE id = ?"
 	statement, err := database.DATABASE.Prepare(query)
 	if err != nil {
@@ -83,7 +83,7 @@ func GetEvents() ([]Event, error) {
 	return events, nil
 }
 
-func (event Event) Update() error {
+func (event *Event) Update() error {
 	query := `
 		UPDATE events 
 		SET name = ?, description = ?, location = ?, dateTime = ?
