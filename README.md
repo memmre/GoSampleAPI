@@ -80,7 +80,7 @@ GoSampleAPI/
 - **GET** `/events/{id}` - Retrieve a specific event
 - **PUT** `/events/{id}` - Update an event (Authenticated)
 - **DELETE** `/events/{id}` - Delete an event (Authenticated)
-- **DELETE** `/events/{id}/register` - Create an event registration (Authenticated)
+- **POST** `/events/{id}/register` - Create an event registration (Authenticated)
 - **DELETE** `/events/{id}/register` - Delete an event registration (Authenticated)
 
 ## Testing API Requests
