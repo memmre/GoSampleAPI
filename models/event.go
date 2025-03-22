@@ -98,3 +98,33 @@ func (event *Event) Update() error {
 	_, err = statement.Exec(event.Name, event.Description, event.Location, event.DateTime, event.ID)
 	return err
 }
+
+func (event *Event) CreateRegistration(userID int64) error {
+	query := `
+		INSERT INTO registrations (userID, eventID)
+		VALUES (?, ?)
+	`
+	statement, err := database.DATABASE.Prepare(query)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(userID, event.ID)
+	return err
+}
+
+func (event *Event) DeleteRegistration(userID int64) error {
+	query := `
+		DELETE FROM registrations 
+		WHERE userID = ? AND eventID = ?
+	`
+	statement, err := database.DATABASE.Prepare(query)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(userID, event.ID)
+	return err
+}
